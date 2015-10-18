@@ -14,7 +14,7 @@ class Product < ActiveRecord::Base
   end
 
   def tag_names
-    @tag_names || tags.pluck(:name).join(" ")
+    @tag_names || tags.pluck(:name).join(' ')
   end
 
   def save_tag_names
