@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="http://library.leoyeh.me/js/react/react.min-0.12.0.js"></script>
+    <script src="http://library.leoyeh.me/js/react/JSXTransformer-0.12.0.js"></script>
+    <script src="http://library.leoyeh.me/js/jquery/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css"></link>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+</head>
+<body>
+<center>
+    <div id="playlist"></div>
+</center>
+<script type="text/jsx">
+
+
+    var React = require('flux-react');
+    var Checkbox = require('./Checkbox.js');
+    React.renderComponent(<Checkbox/>, document.body);
+</script>
+</body>
+</html>
