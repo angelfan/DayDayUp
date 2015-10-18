@@ -1,0 +1,20 @@
+
+<% form_for(@user) do |f| %>
+    <div>
+      <%= f.label :name, "User name:" %>
+      <%= f.text_field :name %>
+    </div>
+
+    <div>
+      <h2>Hobbies</h2>
+
+      <% f.fields_for(:hobbies) do |hf| %>
+          <div>
+            <%= hf.label :name, "Hobby name:" %>
+            <%= hf.text_field :name %>
+          </div>
+      <% end %>
+    </div>
+
+    <%= f.submit 'Create' %>
+<% end %>

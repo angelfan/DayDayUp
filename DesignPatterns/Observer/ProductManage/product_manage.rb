@@ -15,13 +15,11 @@ module Subject
     @observers = []
   end
 
-  def add_observer ob
-      unless @observers.include?(ob)
-        @observers << ob
-      end
+  def add_observer(ob)
+    @observers << ob unless @observers.include?(ob)
   end
 
-  def delete_observer ob
+  def delete_observer(ob)
     @observers.delete ob
   end
 
@@ -29,20 +27,15 @@ module Subject
   # 通知设置提醒的买家
   def notify_observer(func)
     @observers.each do |ob|
-      if ob.state == 0
-        ob.send(func, self)
-      end
+      ob.send(func, self) if ob.state == 0
     end
   end
 
   def notify_remind_observer(func)
     @observers.each do |ob|
-      if ob.state == 1
-        ob.send(func, self)
-      end
+      ob.send(func, self) if ob.state == 1
     end
   end
-
 end
 
 # 商品类
@@ -61,7 +54,7 @@ class Product
   end
 
   # 价格变动时发出通知:
-  def price= new_price
+  def price=(new_price)
     if @price != new_price
 
       old_price = @price.to_i
@@ -85,19 +78,16 @@ class Product
       end
 
     end
-
   end
 
   # 折扣变动时发出通知
-  def discount= new_discount
+  def discount=(new_discount)
     old_discount = @discount
     if new_discount != new_discount
       @discount = new_discount
       notify_observers
       if new_discount >= 8
         # 八折以上
-      else
-        # 八折以下
       end
     end
   end
@@ -105,19 +95,19 @@ end
 
 # 管理类
 module MethodManage
-  def down_price product
+  def down_price(product)
     puts "#{product.owner.name}的#{product.name}提醒您： 商品降价了, 原价是 #{product.old_price}，现价是 #{product.price}"
   end
 
-  def up_price product
+  def up_price(product)
     puts "#{product.owner.name}的#{product.name}提醒您： 商品涨价了, 原价是 #{product.old_price}，现价是 #{product.price}"
   end
 
-  def discount product
+  def discount(product)
     puts "#{product.owner.name}的#{product.name}提醒您： 商品涨价了, 原价是 #{product.old_discount}，现价是 #{product.discount}"
   end
 
-  def remind_price_ok product
+  def remind_price_ok(product)
     puts "#{product.owner.name}的#{product.name}提醒您： 您可以购买#{product.name}了, 现价是 #{product.price}"
   end
 end
@@ -147,11 +137,10 @@ class Buyers
   end
 
   private
-    def add_buyer(product)
-      unless product.owner.buyers.include?(self)
-        product.owner.add_buyer(self)
-      end
-    end
+
+  def add_buyer(product)
+    product.owner.add_buyer(self) unless product.owner.buyers.include?(self)
+  end
 end
 
 class Sellers
@@ -166,7 +155,7 @@ class Sellers
   end
 end
 
-seller_jack = Sellers.new("jack")
+seller_jack = Sellers.new('jack')
 apple = Product.new(seller_jack, 'Apple', '100', 1)
 buyer_angel = Buyers.new('angel')
 buyer_angel.mark(apple)
@@ -175,4 +164,3 @@ buyer_legend.remind(apple, 40)
 apple.price = 101
 apple.price = 30
 p seller_jack.buyers
-
