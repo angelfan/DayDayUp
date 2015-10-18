@@ -1,6 +1,6 @@
 # coding: utf-8
-require File.dirname(__FILE__)+'/direction' # 方向盘
-require File.dirname(__FILE__)+'/drive' # 驱动
+require File.dirname(__FILE__) + '/direction' # 方向盘
+require File.dirname(__FILE__) + '/drive' # 驱动
 
 # 割草机类（含有两个组件，方向盘 和 驱动）
 class Mower
@@ -29,7 +29,7 @@ class Mower
   end
 
   def location
-    "#{ @driver.x} #{ @driver.y} #{@direction_ctrl.direction}"
+    "#{@driver.x} #{@driver.y} #{@direction_ctrl.direction}"
   end
 
   def x
@@ -49,4 +49,3 @@ class Mower
     @direction_ctrl.direction = direction
   end
 end
-

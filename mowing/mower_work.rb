@@ -1,5 +1,5 @@
 # coding: utf-8
-require File.dirname(__FILE__)+'/mower'
+require File.dirname(__FILE__) + '/mower'
 
 console = GetConsole.new
 console.validate

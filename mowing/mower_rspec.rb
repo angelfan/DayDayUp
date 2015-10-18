@@ -1,6 +1,6 @@
 # coding: utf-8
 require 'minitest/autorun'
-require File.dirname(__FILE__)+'/mower'
+require File.dirname(__FILE__) + '/mower'
 
 describe Mower do
   before do
@@ -14,7 +14,7 @@ describe Mower do
   end
 
   it 'location' do
-    @mower.location.must_equal "1 2 N"
+    @mower.location.must_equal '1 2 N'
   end
 
   it 'turn_left' do
@@ -57,5 +57,4 @@ describe Mower do
     @mower.x.must_equal 2
     @mower.y.must_equal 2
   end
-
 end

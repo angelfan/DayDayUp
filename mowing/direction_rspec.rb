@@ -1,7 +1,6 @@
 # coding: utf-8
 require 'minitest/autorun'
-require File.dirname(__FILE__)+'/direction'
-
+require File.dirname(__FILE__) + '/direction'
 
 describe DirectionCtrl do
   before do
@@ -28,6 +27,4 @@ describe DirectionCtrl do
     @direction_ctrl.turn_right.must_equal 'W'
     @direction_ctrl.turn_right.must_equal 'N'
   end
-
-
 end

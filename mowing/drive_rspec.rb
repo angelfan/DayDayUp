@@ -1,6 +1,6 @@
 # coding: utf-8
 require 'minitest/autorun'
-require File.dirname(__FILE__)+'/drive'
+require File.dirname(__FILE__) + '/drive'
 
 describe Driver do
   before do

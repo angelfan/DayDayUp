@@ -1,6 +1,6 @@
 # coding: utf-8
 require 'minitest/autorun'
-require File.dirname(__FILE__)+'/work'
+require File.dirname(__FILE__) + '/work'
 
 describe Work do
   before do
@@ -12,13 +12,13 @@ describe Work do
   it 'start mowing right route 1' do
     route = %w(L M L M L M L M M)
     @work.start(route)
-    @mower.location.must_equal "1 3 N"
+    @mower.location.must_equal '1 3 N'
   end
 
   it 'start mowing right route 2' do
     route = %w(L M L M L M L M M R M)
     @work.start(route)
-    @mower.location.must_equal "2 3 E"
+    @mower.location.must_equal '2 3 E'
   end
 
   it 'start mowing wrong route(not legitimate)' do
@@ -58,6 +58,4 @@ describe Work do
     new_work.error_msg[0].must_equal '割草机开始坐标不能超出草地范围'
     new_work.error_msg[1].must_equal '割草机面朝方向必须是东(E)西(W)南(S)北(N)'
   end
-
-
 end

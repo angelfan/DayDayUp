@@ -1,8 +1,8 @@
 # coding: utf-8
-require File.dirname(__FILE__)+'/direction'
-require File.dirname(__FILE__)+'/drive'
-require File.dirname(__FILE__)+'/meadow'
-require File.dirname(__FILE__)+'/mower'
+require File.dirname(__FILE__) + '/direction'
+require File.dirname(__FILE__) + '/drive'
+require File.dirname(__FILE__) + '/meadow'
+require File.dirname(__FILE__) + '/mower'
 
 # 工作类需要知道判断割草路径的合法性， 以及割草路径是否超过范围
 # 工作类
@@ -22,9 +22,7 @@ class Work
   def init_mower(mower_x, mower_y, mower_direction)
     validate_point(mower_x, mower_y, mower_direction)
 
-    unless @error_msg.any?
-      @mower = Mower.new(mower_x, mower_y, mower_direction)
-    end
+    @mower = Mower.new(mower_x, mower_y, mower_direction) unless @error_msg.any?
   end
 
   def start(route)
@@ -43,6 +41,7 @@ class Work
   end
 
   private
+
   def validate_route(route)
     unless @error_msg.any?
       if route.all? { |rot| %w(L M R).include? rot }
@@ -50,13 +49,9 @@ class Work
         direction_ctrl = DirectionCtrl.new(@mower.direction)
         drive = Driver.new(@mower.x, @mower.y)
         route.each do |rot|
-          if rot == 'L'
-            direction_ctrl.turn_left
-          end
+          direction_ctrl.turn_left if rot == 'L'
 
-          if rot == 'R'
-            direction_ctrl.turn_right
-          end
+          direction_ctrl.turn_right if rot == 'R'
 
           if rot == 'M'
             drive.move(direction_ctrl.direction)
@@ -80,5 +75,4 @@ class Work
       @error_msg << '割草机面朝方向必须是东(E)西(W)南(S)北(N)'
     end
   end
-
 end

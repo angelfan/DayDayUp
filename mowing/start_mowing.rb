@@ -1,6 +1,6 @@
 # coding: utf-8
 # 执行该文件启动
-require File.dirname(__FILE__)+'/work' # 割草机
+require File.dirname(__FILE__) + '/work' # 割草机
 class GetConsole
   attr_reader :meadow, :mower, :route
 

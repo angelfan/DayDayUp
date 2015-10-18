@@ -19,6 +19,7 @@ class Driver
   end
 
   private
+
   def move_to_n(step)
     @y += step
   end
@@ -36,8 +37,6 @@ class Driver
   end
 
   def validate(element)
-    unless %w(N W S E).include?(element)
-      raise '方向设置不在: N W S W 中'
-    end
+    fail '方向设置不在: N W S W 中' unless %w(N W S E).include?(element)
   end
 end
