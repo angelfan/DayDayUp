@@ -1,0 +1,157 @@
+<script src="/assets/jquery.js"></script>
+<script src="/assets/bootstrap.js"></script>
+<script type="text/javascript">
+    var extendUrl = 'http://localhost:3000';
+    var getPrizeUrl = 'http://localhost:3000/zhuanpan/23/h';
+    var commentUrl = 'http://www.example.com'
+    var running = false,
+            count = 0;
+
+    //随机生成数字3或者7: 未中奖情况
+    function rand() {
+        var text = "";
+        var possible = "37";
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+        return text;
+    }
+
+    //转盘css3动画
+    function setDegree($obj, deg) {
+        $obj.css({
+            'transform': 'rotate(' + deg + 'deg)',
+            '-moz-transform': 'rotate(' + deg + 'deg)',
+            '-o-transform': 'rotate(' + deg + 'deg)'
+        });
+    }
+
+    //转盘转动开始
+    //params: offset 0-7,代表需要停到的奖项,由后端传入
+    function rotate(offset) {
+        console.log(offset);
+        var $tar = $('#outer'),
+                i,
+                cnt = 100,
+        //用做ratio的索引(10-29)
+                total = 0,
+        //记录上一次的变化结果
+                ratio = [],
+        //存放角度的变化比例，制造快慢过渡效果
+                amount = 18 - (0.45 * offset); //每次每多出45/200=0.225度,200次就多偏转45度
+        ratio[1] = [0.2, 0.4, 0.6, 0.8, 1, 1, 1.2, 1.4, 1.6, 1.8];
+        ratio[2] = [1.8, 1.6, 1.4, 1.2, 1, 1, 0.8, 0.6, 0.4, 0.2];
+        for (i = 0; i < 100; i++) { //100次50ms的间隔
+            setTimeout(function () {
+                        //计算每次偏转增量，对应阶段的增减比例最终造成快慢变化
+                        var deg = amount * (ratio[String(cnt).substr(0, 1)][String(cnt).substr(1, 1)]);
+                        setDegree($tar, deg + total); //改变偏转
+                        total += deg; //记录
+                        cnt++; //依据次数用作ratio的索引，这里用到了闭包不能使用i
+                    },
+                    i * 25);
+        }
+        setTimeout(function () {
+                    if (offset == 3 || offset == 7) {
+                        window.sessionStorage.setItem('prizename', '没中奖');
+                        $('#myModal').modal('show');
+                        $('#word').html("<p>加油哦，亲！</p>");
+                        $('#goShop').text('点击这里');
+                        $('#goShop').click(function () {
+                            location.href = extendUrl;
+                        });
+                    }
+                },
+                100 * 25 + 250);
+    }
+
+    //绑定事件，点击指针开始
+    function actRotate() {
+        if (running)
+            return;
+
+        if (count >= 1) {
+            $('#myModal').modal('show');
+            $('#word p').text('亲，每人只能参加一次哦！');
+            $('#goShop').text('点击这里');
+            $('#goShop').click(function () {
+                location.href = extendUrl;
+            });
+            count = 1;
+            return
+        }
+
+        if (window.sessionStorage.getItem('prizename') != null) {
+            $('#myModal').modal('show');
+            $('#word p').text('亲，你不能再参加本次活动了喔！下次再来吧^_^');
+            $('#goShop').text('点击这里');
+            $('#goShop').click(function () {
+                location.href = extendUrl;
+            });
+            return
+        }
+
+        $.ajax({
+            type: "GET",
+            url: getPrizeUrl,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (data.status == 0) { //活动还未开始
+                    console.log('活动还未开始');
+                    $('#myModal').modal('show');
+                    $('#word p').text('亲，活动还未开始啦!');
+                    $('#goShop').text('点击这里');
+                    $('#goShop').click(function () {
+                        location.href = extendUrl;
+                    });
+                } else if (data.status == 1) { //活动进行中: 抽奖并中奖
+                    console.log('活动进行中：中奖');
+                    window.sessionStorage.setItem('goods_id', data.goods_id);
+                    rotate(data.Coupon.grade);
+                    setTimeout(function () {
+                                window.sessionStorage.setItem('prizename', data.message + '');
+                                $('#myModal1').modal('show');
+                                $('#word1').html("<p>恭喜你，获得了" + data.message + "</p>");
+                                $('#goNext').click(function () {
+                                    location.href = commentUrl;
+                                });
+                            },
+                            100 * 25 + 250);
+                } else if (data.status == 2) { //活动进行中：抽奖未中奖
+                    console.log('活动进行中：抽奖未中奖');
+                    var text = rand();
+                    text = text.toString();
+                    rotate(text);
+                } else if (data.status == 3) { //奖品已经领完
+                    console.log('奖品已经领完');
+                    $('#myModal').modal('show');
+                    $('#word p').text('今日奖品已经领完，明天继续哦!');
+                    $('#goShop').click(function () {
+                        location.href = extendUrl;
+                    });
+                } else if (data.status == 4) { //活动结束
+                    console.log('活动结束');
+                    $('#myModal').modal('show');
+                    $('#word p').text('亲，活动已经结束啦!');
+                    $('#goShop').text('点击这里');
+                    $('#goShop').click(function () {
+                        location.href = extendUrl;
+                    });
+                }
+                running = false;
+                count++;
+            },
+            error: function () {
+                $('#myModal').modal('show');
+                $('#word').html("<img src='aa.png' class='fail' id='tsImg'>");
+                $('#goShop').text('获得帮助');
+                $('#goShop').click(function () {
+                    location.href = extendUrl;
+                });
+                prize = null;
+                running = false;
+                count = 0;
+            },
+            timeout: 1000
+        });
+    }
+</script>
