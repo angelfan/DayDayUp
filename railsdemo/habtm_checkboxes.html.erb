@@ -1,0 +1,33 @@
+<div class="field">
+  <%= hidden_field_tag "product[category_ids][]", nil %>
+  <% Category.all.each do |category| %>
+      <%= check_box_tag "product[category_ids][]", category.id, @product.category_ids.include?(category.id), id: dom_id(category) %>
+      <%= label_tag dom_id(category), category.name %><br>
+  <% end %>
+</div>
+
+<%
+   class Post < ActiveRecord::Base
+     has_and_belongs_to_many :authors
+   end
+   class Author < ActiveRecord::Base
+     has_and_belongs_to_many :posts
+     def name_with_initial
+       "#{first_name.first}. #{last_name}"
+     end
+   end
+
+   collection_check_boxes(:post, :author_ids, Author.all, :id, :name_with_initial)
+
+   collection_check_boxes(:post, :author_ids, Author.all, :id, :name_with_initial) do |b|
+     b.label { b.check_box }
+   end
+
+   collection_check_boxes(:post, :author_ids, Author.all, :id, :name_with_initial) do |b|
+     b.label(class: "check_box") { b.check_box(class: "check_box") }
+   end
+
+   collection_check_boxes(:post, :author_ids, Author.all, :id, :name_with_initial) do |b|
+     b.label(:"data-value" => b.value) { b.check_box + b.text }
+   end
+%>

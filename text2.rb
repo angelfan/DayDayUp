@@ -176,4 +176,3 @@ require 'digest'
 #
 # The opposite of reject is select
 # The opposite of keep_if is delete_if
-

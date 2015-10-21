@@ -1,0 +1,24 @@
+<%
+   # gem bullet  可以帮助消除 N+1
+   class Product < ActiveRecord::Base
+     attr_accessible :name, :price, :category_id
+     belongs_to :category
+     has_many :reviews
+
+     def category_name
+       read_attribute("category_name") || category.name
+     end
+   end
+
+   # order("categories.name") 这个时候用joins比较好, 比include好, 否则可以使用include
+   @products = Product.order("categories.name").joins(:category).select("products.*, categories.name as category_name")
+%>
+
+<% @products.each do |product| %>
+    <tr>
+      <td><%= link_to product.name, product %></td>
+      <td><%= product.category_name %></td>
+      <td class="price"><%= number_to_currency(product.price) %></td>
+      <td><%= link_to "edit", edit_product_path(product) %></td>
+    </tr>
+<% end %>
