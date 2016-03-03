@@ -273,32 +273,3 @@ target2 = [ {material: 'angel', quantity: '15'}, {material: 'legend', quantity: 
 #
 #
 # [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5].chunk { |n| n.even? }.each { |even, ary| p [even, ary] }
-
-def a
-  false
-end
-
-def b
-  false
-end
-
-def c
-  true
-end
-
-unless b || c || a
-  p 'o'
-end
-
-# 指定 size 建立空白圖檔
-def create_blank_image(width, height, color: 'white', format: 'PNG32')
-  tempfile = Tempfile.new(['canvas', '.png'])
-  p tempfile
-  system "convert -size #{width}x#{height} xc:#{color} #{format}:#{tempfile.path}"
-  MiniMagick::Image.open(tempfile.path)
-ensure
-  tempfile.close
-  tempfile.unlink
-end
-
-create_blank_image('100', '101')
