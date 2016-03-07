@@ -21,6 +21,5 @@ end
 ransacker :hstore_key do |parent|
     Arel::Nodes::InfixOperation.new('->', parent.table[:hstore_column], 'hstore_key')
 end
-
 ```
 
