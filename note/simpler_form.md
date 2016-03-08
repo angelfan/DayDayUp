@@ -169,3 +169,24 @@ class FakeInput < SimpleForm::Inputs::StringInput
   end
 end
 ```
+
+```ruby
+config.wrappers do |b|
+  b.use :placeholder
+  b.use :label_input
+  b.wrapper :my_wrapper, tag: :div, class: 'separator', html: { id: 'my_wrapper_id' } do |component|
+    component.use :hint,  wrap_with: { tag: :span, class: :hint }
+    component.use :error, wrap_with: { tag: :span, class: :error }
+  end
+end
+
+# Completely turns off the custom wrapper
+f.input :name, my_wrapper: false
+
+# Configure the html
+f.input :name, my_wrapper_html: { id: 'special_id' }
+
+# Configure the tag
+f.input :name, my_wrapper_tag: :p
+
+```
