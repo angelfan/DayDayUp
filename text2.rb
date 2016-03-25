@@ -273,3 +273,28 @@ target2 = [ {material: 'angel', quantity: '15'}, {material: 'legend', quantity: 
 #
 #
 # [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5].chunk { |n| n.even? }.each { |even, ary| p [even, ary] }
+
+
+
+
+require 'active_record'
+require 'pg' # or 'pg' or 'sqlite3'
+
+# Change the following to reflect your database settings
+ActiveRecord::Base.establish_connection(
+    adapter:  'postgresql', # or 'postgresql' or 'sqlite3'
+    host:     'localhost',
+    database: 'commandp_development',
+    username: 'gengfan',
+    password: 'Legend.1234',
+    port: '5432'
+)
+
+# Define your classes based on the database, as always
+class SomeClass < ActiveRecord::Base
+  self.table_name = '你的表名'
+end
+
+# Now do stuff with it
+SomeClass.where(column: 'value').update(column: 'value')
+
