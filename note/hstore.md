@@ -103,13 +103,13 @@ end
 
 ```ruby
 User.where("extra_info ? :key", key: "name")
+
 User.where("not extra_info ? :key", key: "name")
-User.where("extra_info @> hstore(:key, :value)",
-  key: "name", value: "angelfan"
-)
-User.where("extra_info -> :key LIKE :value",
-  key: "name", value: "%fan%"
-)
+
+User.where("extra_info @> hstore(:key, :value)", key: "name", value: "angelfan")
+
+User.where("extra_info -> :key LIKE :value", key: "name", value: "%fan%")
+
 User.where("extra_info -> 'locked' = :value", value: 'true')
 ```
 
