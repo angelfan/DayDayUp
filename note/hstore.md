@@ -60,12 +60,14 @@ class ExtraInfo
     new(hash)
   end
 end
+```
 
 ### 在User中使用
 ```ruby
 class User < ActiveRecord::Base
   serialize :extra_info, ExtraInfo
 end
+```
 
 ### 可以使用委托
 ```ruby
