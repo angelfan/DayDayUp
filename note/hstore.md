@@ -14,6 +14,8 @@ MyModel.update_all("hstore_column = hstore_column || hstore('key', 'value')")
 ransacker :json_key do |parent|
     Arel.sql "(#{parent.table.name}.json_column->>'json_key')"
 end
+
+Event.where("payload ->> 'kind' = ?", "user_renamed")
 ```
 
 ## 支援hstore
@@ -21,9 +23,14 @@ end
 ransacker :hstore_key do |parent|
     Arel::Nodes::InfixOperation.new('->', parent.table[:hstore_column], 'hstore_key')
 end
+
+Event.where("payload -> 'kind' = ?", "yellow")
 ```
 
 ## 使用 [hstore](http://www.postgresql.org/docs/9.4/static/hstore.html)
+
+### [activerecord-postgres-hstore](https://github.com/diogob/activerecord-postgres-hstore)
+### [guide](http://edgeguides.rubyonrails.org/active_record_postgresql.html)
 
 ### 开启 hstore
 
