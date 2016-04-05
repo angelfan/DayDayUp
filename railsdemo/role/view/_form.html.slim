@@ -1,0 +1,16 @@
+.page-header
+  h1 = "編輯權限——#{@role.name}"
+= simple_form_for [:print, @role] do |f|
+  .col-xs-10
+    - PrintPolicy.policies.each do |policy|
+      - resource = policy.resource
+      div
+        span = "#{resource}: "
+        - policy.actions.each do |action|
+          - checked = @role.permissions.exists?(action: action, resource: resource)
+          - value = "#{resource}##{action}"
+          - text = t("role.#{resource.underscore}.#{action}")
+          = f.check_box :permissions, { multiple: true, checked: checked }, value, nil
+          = f.label :permissions, text, value: value
+
+    = f.button :submit, class: 'btn btn-primary'
