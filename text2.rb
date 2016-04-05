@@ -1,4 +1,4 @@
-
+# encoding: utf-8
 require 'digest'
 # p Digest::MD5.hexdigest('12')
 #
@@ -276,25 +276,53 @@ target2 = [ {material: 'angel', quantity: '15'}, {material: 'legend', quantity: 
 
 
 
+#
+# require 'active_record'
+# require 'pg' # or 'pg' or 'sqlite3'
+#
+# # Change the following to reflect your database settings
+# ActiveRecord::Base.establish_connection(
+#     adapter:  'postgresql', # or 'postgresql' or 'sqlite3'
+#     host:     'localhost',
+#     database: 'commandp_development',
+#     username: 'gengfan',
+#     password: 'Legend.1234',
+#     port: '5432'
+# )
+#
+# # Define your classes based on the database, as always
+# class SomeClass < ActiveRecord::Base
+#   self.table_name = '你的表名'
+# end
+#
+# # Now do stuff with it
+# SomeClass.where(column: 'value').update(column: 'value')
+#
 
-require 'active_record'
-require 'pg' # or 'pg' or 'sqlite3'
+# require 'csv'
+# filename = "ExportOrderList201602151407.csv"
+# # p csv_text  = File.read(filename)
+# #
+# test =  CSV.open(filename, encoding: 'GB18030:UTF-8', :col_sep => "t", :row_sep => "\n", header_converters: :symbol, quote_char: '?')
+# test.each do |a|
+#   p a
+# end
 
-# Change the following to reflect your database settings
-ActiveRecord::Base.establish_connection(
-    adapter:  'postgresql', # or 'postgresql' or 'sqlite3'
-    host:     'localhost',
-    database: 'commandp_development',
-    username: 'gengfan',
-    password: 'Legend.1234',
-    port: '5432'
-)
+# def read(filename, e)
+#   p CSV.open(filename, {encoding: 'GB18030:UTF-8'})
+# rescue => e
+#   p 1
+# end
+# #
+# Encoding.name_list.each do |e|
+#   read(filename, e)
+#   # p file_content = File.open(filename, e, &:read)
+# end
 
-# Define your classes based on the database, as always
-class SomeClass < ActiveRecord::Base
-  self.table_name = '你的表名'
-end
 
-# Now do stuff with it
-SomeClass.where(column: 'value').update(column: 'value')
-
+# p test =  CSV.open(filename)
+# test =  CSV.open(filename, {encoding: 'US-ASCII'})
+# test.each do |a|
+#   p a
+# end
+# ISO-8859-1（也叫 Latin-1）?
