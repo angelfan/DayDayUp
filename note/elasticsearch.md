@@ -1,10 +1,10 @@
-# Elasticsearch
+# [Elasticsearch](http://es.xiaoleilu.com/)
 
 ## 最重要的查询过滤语句
 
 ### term 过滤
 term主要用于精确匹配哪些值，比如数字，日期，布尔值或 not_analyzed的字符串(未经分析的文本数据类型)：
-```json
+```JSON
 { "term": { "age":    26           }}
 { "term": { "date":   "2014-09-01" }}
 { "term": { "public": true         }}
