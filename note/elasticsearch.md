@@ -145,3 +145,47 @@ should:: 查询指定文档，有则可以为文档相关性加分。
 }
 ```
     提示： 如果bool 查询下没有must子句，那至少应该有一个should子句。但是 如果有must子句，那么没有should子句也可以进行查询。
+
+## Highlights
+```ruby
+def self.search(query)
+  __elasticsearch__.search(
+    {
+      query: {
+        multi_match: {
+          query: query,
+          fields: ['title^10', 'text']
+        }
+      },
+      highlight: {
+        pre_tags: ['<em>'],
+        post_tags: ['</em>'],
+        fields: {
+          title: {},
+          text: {}
+        }
+      }
+    }
+  )
+end
+```
+
+```erb
+<ul>
+  <% @articles.each do |article| %>
+    <li>
+      <h3>
+        <%= link_to article.try(:highlight).try(:title) ? article.highlight.title[0].html_safe : article.title,
+          controller: "articles",
+          action: "show",
+          id: article._id%>
+      </h3>
+      <% if article.try(:highlight).try(:text) %>
+        <% article.highlight.text.each do |snippet| %>
+          <p><%= snippet.html_safe %>...</p>
+        <% end %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+```
