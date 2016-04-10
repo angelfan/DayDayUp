@@ -13,7 +13,7 @@ term主要用于精确匹配哪些值，比如数字，日期，布尔值或 not
 
 ### terms 过滤
 terms 跟 term 有点类似，但 terms 允许指定多个匹配条件。 如果某个字段指定了多个值，那么文档需要一起去做匹配：
-```
+```JSON
 {
     "terms": {
         "tag": [ "search", "full_text", "nosql" ]
@@ -23,7 +23,7 @@ terms 跟 term 有点类似，但 terms 允许指定多个匹配条件。 如果
 
 ### range 过滤
 range过滤允许我们按照指定范围查找一批数据：
-```
+```JSON
 {
     "range": {
         "age": {
@@ -34,7 +34,7 @@ range过滤允许我们按照指定范围查找一批数据：
 }
 ```
 范围操作符包含：
-```
+```JSON
 gt :: 大于
 
 gte:: 大于等于
@@ -46,7 +46,7 @@ lte:: 小于等于
 
 ### exists 和 missing 过滤
 exists 和 missing 过滤可以用于查找文档中是否包含指定字段或没有某个字段，类似于SQL语句中的IS_NULL条件
-```
+```JSON
 {
     "exists":   {
         "field":    "title"
@@ -66,7 +66,7 @@ must_not :: 多个查询条件的相反匹配，相当于 not。
 should :: 至少有一个查询条件匹配, 相当于 or。
 
 这些参数可以分别继承一个过滤条件或者一个过滤条件的数组：
-```
+```JSON
 {
     "bool": {
         "must":     { "term": { "folder": "inbox" }},
@@ -82,7 +82,7 @@ should :: 至少有一个查询条件匹配, 相当于 or。
 ### match_all 查询
 
 使用match_all 可以查询到所有文档，是没有查询条件下的默认语句。
-```
+```JSON
 {
     "match_all": {}
 }
@@ -93,7 +93,7 @@ should :: 至少有一个查询条件匹配, 相当于 or。
 match查询是一个标准查询，不管你需要全文本查询还是精确查询基本上都要用到它。
 
 如果你使用 match 查询一个全文本字段，它会在真正查询之前用分析器先分析match一下查询字符：
-```
+```JSON
 {
     "match": {
         "tweet": "About Search"
@@ -101,7 +101,7 @@ match查询是一个标准查询，不管你需要全文本查询还是精确查
 }
 ```
 如果用match下指定了一个确切值，在遇到数字，日期，布尔值或者not_analyzed 的字符串时，它将为你搜索你给定的值：
-```
+```JSON
 { "match": { "age":    26           }}
 { "match": { "date":   "2014-09-01" }}
 { "match": { "public": true         }}
@@ -112,7 +112,7 @@ match查询是一个标准查询，不管你需要全文本查询还是精确查
 ### multi_match 查询
 
 multi_match查询允许你做match查询的基础上同时搜索多个字段：
-```
+```JSON
 {
     "multi_match": {
         "query":    "full text search",
@@ -132,7 +132,7 @@ must_not:: 查询指定文档一定不要被包含。
 should:: 查询指定文档，有则可以为文档相关性加分。
 
 以下查询将会找到 title 字段中包含 "how to make millions"，并且 "tag" 字段没有被标为 spam。 如果有标识为 "starred" 或者发布日期为2014年之前，那么这些匹配的文档将比同类网站等级高：
-```
+```JSON
 {
     "bool": {
         "must":     { "match": { "title": "how to make millions" }},
