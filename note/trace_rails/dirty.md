@@ -1,7 +1,7 @@
-# activemodel/lib/active_model/dirty.rb
+# [ActiveModel::Dirty](https://github.com/rails/rails/blob/master/activemodel/lib/active_model/dirty.rb)
 
 ## Description
-被 ActiveRecord::AttributeMethods封装成 ActiveRecord的Dirty
+被 [ActiveRecord::AttributeMethods](https://github.com/rails/rails/blob/master/activerecord/lib/active_record/attribute_methods.rb)封装成 ActiveRecord的Dirty
 
 ## Example
 ```ruby

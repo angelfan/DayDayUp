@@ -1,7 +1,7 @@
-# activemodel/lib/active_model/attribute_methods.rb
+# [ActiveModel::AttributeMethods](https://github.com/rails/rails/blob/master/activemodel/lib/active_model/attribute_methods.rb)
 
 ## Description
-ActiveModel::Dirty 主要是依赖它来实现的
+[ActiveModel::Dirty](https://github.com/rails/rails/blob/master/activemodel/lib/active_model/dirty.rb) 主要是依赖它来实现的
 
 ## Example
 ```ruby
