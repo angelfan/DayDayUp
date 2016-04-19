@@ -90,7 +90,7 @@ end
 ```
 
 ### Account.new.save
-这个时候回调用一个方法 run_callbacks :save
+这个时候会调用一个方法 run_callbacks :save
 
 #### run_callbacks
 
@@ -114,7 +114,8 @@ def __run_callbacks__(callbacks, &block)
 end
 ```
 runner 就是回调链 CallbackChain => CallbackSequence
-e 其实就是回调链的调用者 这里就是Account.new
+
+e 其实就是回调链的上下文 这里就是Account.new
 
 #### callbacks.compile
 ```ruby
@@ -162,5 +163,5 @@ end
 #### [最简版:](https://github.com/angelfan/DayDayUp/tree/master/note/trace_rails/activesupport/callbacks/1_callbacks.rb) 只能有一个before callback
 #### [进阶版*1](https://github.com/angelfan/DayDayUp/tree/master/note/trace_rails/activesupport/callbacks/2_callbacks.rb) 支持before after 的 callback chain
 #### [进阶版*2](https://github.com/angelfan/DayDayUp/tree/master/note/trace_rails/activesupport/callbacks/3_callbacks.rb) 支持方法回调 支持类回调
-#### [进阶版*3](https://github.com/angelfan/DayDayUp/tree/master/note/trace_rails/activesupport/callbacks/4_callbacks.rb) 支持guard
+#### [进阶版*3](https://github.com/angelfan/DayDayUp/tree/master/note/trace_rails/activesupport/callbacks/4_callbacks.rb) 支持guard ps: 这个版做的有些随便, 见缝插针了
 
