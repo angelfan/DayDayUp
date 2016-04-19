@@ -156,3 +156,11 @@ def call(arg)
 end
 ```
 就是将每个类型的回调链里面所有的callback 全部执行一遍
+
+### callback从不懂到装懂
+
+#### [最简版:](https://github.com/angelfan/DayDayUp/tree/master/note/trace_rails/activesupport/callbacks/1_callbacks.rb) 只能有一个before callback
+#### [进阶版*1](https://github.com/angelfan/DayDayUp/tree/master/note/trace_rails/activesupport/callbacks/2_callbacks.rb) 支持before after 的 callback chain
+#### [进阶版*2](https://github.com/angelfan/DayDayUp/tree/master/note/trace_rails/activesupport/callbacks/3_callbacks.rb) 支持方法回调 支持类回调
+#### [进阶版*3](https://github.com/angelfan/DayDayUp/tree/master/note/trace_rails/activesupport/callbacks/4_callbacks.rb) 支持guard
+
