@@ -1,3 +1,6 @@
 # RubyMine
 .idea/
+v/
 railsdemo/ignore
+text2.rb
+note/trace_rails/activemodel/validations.md
