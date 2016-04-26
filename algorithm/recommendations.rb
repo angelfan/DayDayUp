@@ -39,10 +39,10 @@ critics = { 'Lisa Rose' => { 'Lady in the Water' => 2.5,
                                   'Superman Returns' => 4.2 } }
 # 皮尔逊相关度评价
 def sim_pearson(prefs, p1, p2)
-  si = {}
+  si = []
   # 得到双方都评价过的列表
   prefs[p1].keys.each do |item|
-    si[item] = 1 if (prefs[p2]).include?(item)
+    si << item if (prefs[p2]).include?(item)
   end
 
   # 如果没有则返回0
@@ -50,15 +50,15 @@ def sim_pearson(prefs, p1, p2)
   return 0 if n == 0
 
   # 对所有偏好求和
-  sum1 = si.keys.map { |it| prefs[p1][it] }.reduce(&:+)
-  sum2 = si.keys.map { |it| prefs[p2][it] }.reduce(&:+)
+  sum1 = si.map { |it| prefs[p1][it] }.reduce(&:+)
+  sum2 = si.map { |it| prefs[p2][it] }.reduce(&:+)
 
   # 求平方和
-  sum1Sq = si.keys.map { |it| prefs[p1][it]**2 }.reduce(&:+)
-  sum2Sq = si.keys.map { |it| prefs[p2][it]**2 }.reduce(&:+)
+  sum1Sq = si.map { |it| prefs[p1][it]**2 }.reduce(&:+)
+  sum2Sq = si.map { |it| prefs[p2][it]**2 }.reduce(&:+)
 
   # 求乘积之和
-  pSum = si.keys.map { |it| prefs[p1][it] * prefs[p2][it] }.reduce(&:+)
+  pSum = si.map { |it| prefs[p1][it] * prefs[p2][it] }.reduce(&:+)
 
   # 计算皮尔逊评价值
   num = pSum - (sum1 * sum2 / n)
