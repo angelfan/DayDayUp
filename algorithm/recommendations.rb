@@ -67,8 +67,8 @@ def sim_pearson(prefs, p1, p2)
   num / den
 end
 
-p sim_pearson(critics, 'Lisa Rose', 'Gene Seymour') # 0.396059017191
-p sim_pearson(critics, 'Lisa Rose', 'Lisa Rose Like') # 0.9525626715469733
+sim_pearson(critics, 'Lisa Rose', 'Gene Seymour') # 0.396059017191
+sim_pearson(critics, 'Lisa Rose', 'Lisa Rose Like') # 0.9525626715469733
 
 # 欧几里得距离评价
 def sim_distance(prefs, p1, p2)
@@ -89,5 +89,18 @@ def sim_distance(prefs, p1, p2)
   1/(1+sum_of_squares ** (1.0/2))
 end
 
-p sim_distance(critics, 'Lisa Rose', 'Gene Seymour') # 0.29429805508554946
-p sim_distance(critics, 'Lisa Rose', 'Lisa Rose Like') # 0.34865629286222505
+sim_distance(critics, 'Lisa Rose', 'Gene Seymour') # 0.29429805508554946
+sim_distance(critics, 'Lisa Rose', 'Lisa Rose Like') # 0.34865629286222505
+
+# 为评论者打分
+def topMatches(prefs,person,n=5, similarity= :sim_pearson)
+  scores = []
+  prefs.keys.each do |other|
+    scores << [send(similarity, prefs, person, other), other] if other != person
+  end
+  scores.sort! { |x, y| y[0] <=>  x[0] }
+  scores[0..(n-1)]
+end
+
+topMatches(critics, 'Toby', 3)
+# [[0.99999999999994, "Lisa Rose Like"], [0.9912407071619299, "Lisa Rose"], [0.9244734516419049, "Mick LaSalle"]]
