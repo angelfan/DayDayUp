@@ -1,42 +1,40 @@
-critics = { 'Lisa Rose' => { 'Lady in the Water' => 2.5,
-                             'Snakes on a Plane' => 3.5,
-                             'Just My Luck' => 3.0,
-                             'Superman Returns' => 3.5,
-                             'You, Me and Dupree' => 2.5,
-                             'The Night Listener' => 3.0 },
-            'Gene Seymour' => { 'Lady in the Water' => 3.0,
-                                'Snakes on a Plane' => 3.5,
-                                'Just My Luck' => 1.5,
-                                'Superman Returns' => 5.0,
-                                'The Night Listener' => 3.0,
-                                'You, Me and Dupree' => 3.5 },
-            'Michael Phillips' => { 'Lady in the Water' => 2.5,
-                                    'Snakes on a Plane' => 3.0,
-                                    'Superman Returns' => 3.5,
-                                    'The Night Listener' => 4.0 },
-            'Claudia Puig' => { 'Snakes on a Plane' => 3.5,
-                                'Just My Luck' => 3.0,
-                                'The Night Listener' => 4.5,
-                                'Superman Returns' => 4.0,
-                                'You, Me and Dupree' => 2.5 },
-            'Mick LaSalle' => { 'Lady in the Water' => 3.0,
-                                'Snakes on a Plane' => 4.0,
-                                'Just My Luck' => 2.0,
-                                'Superman Returns' => 3.0,
-                                'The Night Listener' => 3.0,
-                                'You, Me and Dupree' => 2.0 },
-            'Jack Matthews' => { 'Lady in the Water' => 3.0,
-                                 'Snakes on a Plane' => 4.0,
-                                 'The Night Listener' => 3.0,
-                                 'Superman Returns' => 5.0,
-                                 'You, Me and Dupree' => 3.5 },
-            'Toby' => { 'Snakes on a Plane' => 4.5,
-                        'You, Me and Dupree' => 1.0,
-                        'Superman Returns' => 4.0 },
-            'Lisa Rose Like' => { 'Lady in the Water' => 3.5,
-                                  'Snakes on a Plane' => 4.5,
-                                  'Just My Luck' => 4.0,
-                                  'Superman Returns' => 4.2 } }
+critics = {
+    'Lisa Rose'         => { 'Lady in the Water'    => 2.5,
+                             'Snakes on a Plane'    => 3.5,
+                             'Just My Luck'         => 3.0,
+                             'Superman Returns'     => 3.5,
+                             'You, Me and Dupree'   => 2.5,
+                             'The Night Listener'   => 3.0 },
+    'Gene Seymour'      => { 'Lady in the Water'    => 3.0,
+                             'Snakes on a Plane'    => 3.5,
+                             'Just My Luck'         => 1.5,
+                             'Superman Returns'     => 5.0,
+                             'The Night Listener'   => 3.0,
+                             'You, Me and Dupree'   => 3.5 },
+    'Michael Phillips'  => { 'Lady in the Water'    => 2.5,
+                             'Snakes on a Plane'    => 3.0,
+                             'Superman Returns'     => 3.5,
+                             'The Night Listener'   => 4.0 },
+    'Claudia Puig'      => { 'Snakes on a Plane'    => 3.5,
+                             'Just My Luck'         => 3.0,
+                             'The Night Listener'   => 4.5,
+                             'Superman Returns'     => 4.0,
+                             'You, Me and Dupree'   => 2.5 },
+    'Mick LaSalle'      => { 'Lady in the Water'    => 3.0,
+                             'Snakes on a Plane'    => 4.0,
+                             'Just My Luck'         => 2.0,
+                             'Superman Returns'     => 3.0,
+                             'The Night Listener'   => 3.0,
+                             'You, Me and Dupree'   => 2.0 },
+    'Jack Matthews'     => { 'Lady in the Water'    => 3.0,
+                             'Snakes on a Plane'    => 4.0,
+                             'The Night Listener'   => 3.0,
+                             'Superman Returns'     => 5.0,
+                             'You, Me and Dupree'   => 3.5 },
+    'Toby'              => { 'Snakes on a Plane'    => 4.5,
+                             'You, Me and Dupree'   => 1.0,
+                             'Superman Returns'     => 4.0 }
+}
 # 皮尔逊相关度评价
 def sim_pearson(prefs, p1, p2)
   si = []
@@ -68,7 +66,6 @@ def sim_pearson(prefs, p1, p2)
 end
 
 sim_pearson(critics, 'Lisa Rose', 'Gene Seymour') # 0.396059017191
-sim_pearson(critics, 'Lisa Rose', 'Lisa Rose Like') # 0.9525626715469733
 
 # 欧几里得距离评价
 def sim_distance(prefs, p1, p2)
@@ -90,7 +87,6 @@ def sim_distance(prefs, p1, p2)
 end
 
 sim_distance(critics, 'Lisa Rose', 'Gene Seymour') # 0.29429805508554946
-sim_distance(critics, 'Lisa Rose', 'Lisa Rose Like') # 0.34865629286222505
 
 # 为评论者打分
 def topMatches(prefs,person,n=5, similarity= :sim_pearson)
@@ -104,3 +100,26 @@ end
 
 topMatches(critics, 'Toby', 3)
 # [[0.99999999999994, "Lisa Rose Like"], [0.9912407071619299, "Lisa Rose"], [0.9244734516419049, "Mick LaSalle"]]
+
+# 物品推荐
+def getRecommendations(prefs,person, similarity= :sim_pearson)
+  totals = Hash.new(0)
+  simSums = Hash.new(0)
+  prefs.keys.each do |other|
+    next if other == person
+
+    sim = send(similarity, prefs,person,other)
+    next if sim <= 0
+    prefs[other].keys.each do |item|
+      # 相似度 * 评价值
+      totals[item] += prefs[other][item]*sim if !prefs[person].keys.include?(item) || prefs[person][item]==0
+      # 相似度之和
+      simSums[item]+=sim
+    end
+  end
+  rankings = totals.map { |item, total| [total/simSums[item],item]  }
+  rankings.sort { |x, y| y[0] <=>  x[0] }
+end
+
+getRecommendations(critics, 'Toby')
+# [[3.3477895267131017, "The Night Listener"], [2.8325499182641614, "Lady in the Water"], [2.530980703765565, "Just My Luck"]]
