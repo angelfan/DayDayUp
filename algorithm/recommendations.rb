@@ -146,3 +146,58 @@ topMatches(transformPrefs(critics), 'Superman Returns')
 # 为Just My Luck影片推荐评论者
 getRecommendations(transformPrefs(critics), 'Just My Luck')
 # [[4.0, "Michael Phillips"], [3.0, "Jack Matthews"]]
+
+### 基于物品的协同过滤
+# 构造物品相似度数据集
+def calculateSimilarItems(prefs, n = 10)
+  result = {}
+  itemPrefs = transformPrefs(prefs)
+  itemPrefs.keys.each do |item|
+    scores = topMatches(itemPrefs, item, n = n, similarity = :sim_distance)
+    result[item] = scores
+  end
+  result
+end
+
+calculateSimilarItems(critics)
+
+def getRecommendedItems(prefs, itemMatch, user)
+  userRatings = prefs[user]
+  scores = Hash.new(0)
+  totalSim = Hash.new(0)
+  userRatings.each do |item, rating|
+    itemMatch[item].each do |values|
+      item2 = values[1]
+      similarity = values[0]
+      unless userRatings.keys.include?(item2)
+        scores[item2] += similarity * rating
+        totalSim[item2] += similarity
+      end
+    end
+  end
+  scores.map { |item, score| [score / totalSim[item], item] }.sort { |x, y| y[0] <=> x[0] }
+end
+
+getRecommendedItems(critics, calculateSimilarItems(critics), 'Toby')
+
+def loadMovieLens
+  movies = {}
+  File.open('u.item').each do |s|
+    id, title = s.split('|')[0..1]
+    movies[id] = title
+  end
+
+  prefs = {}
+  File.open('u.data').each do |s|
+    user, movieid, rating, _ts = s.split(' ')
+    prefs[user] ||= {}
+    prefs[user][movies[movieid]] = rating.to_f
+  end
+  prefs
+end
+
+movies = loadMovieLens
+# 基于用户的推荐
+getRecommendations(movies, '87')[0..30]
+# 基于电影的推荐
+getRecommendedItems(movies, calculateSimilarItems(movies, 50), '87')[0..30]
