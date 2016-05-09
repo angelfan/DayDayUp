@@ -254,3 +254,22 @@ ActiveSupport::Notifications::Fanout
 
 ActiveSupport::Notifications::Instrumenter
 分发到具体事件事件 然后委托到
+
+
+## PS
+```ruby
+class OtherSubscriber < ActiveSupport::Subscriber
+  attach_to :other
+
+  def publish(name, *args)
+  end
+
+  def any_name
+  end
+end
+
+ActiveSupport::Notifications.publish('any_name.other', date: 'any_date')
+
+publish一个时间全部会被代理到 OtherSubscriber#publish上
+可以通过它来自定一些事情
+```
