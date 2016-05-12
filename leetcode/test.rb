@@ -53,7 +53,23 @@ def three_columns(arr)
   transform_arr.each { |arr| puts arr.join(' ')}
 end
 
-three_columns slices
+# three_columns slices
+
+
+def new_three_columns(arr, columns)
+  rows = (arr.size / columns.to_f).ceil
+  puts_arr = Array.new(rows){[]}
+
+  (0..rows-1).to_a.each do |row|
+    (0..columns-1).to_a.each do |column|
+      puts_arr[row] << arr[rows * column + row]
+    end
+  end
+
+  puts_arr.each { |arr| puts arr.join(' ')}
+end
+
+new_three_columns([1,2,3,4,5,6,7,8], 3)
 
 
 
