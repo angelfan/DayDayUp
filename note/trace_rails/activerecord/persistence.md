@@ -11,3 +11,12 @@ def _read_attribute(attr_name) # :nodoc:
 end
 ```
 ### Relation#_update_record
+
+
+
+
+
+
+
+
+
