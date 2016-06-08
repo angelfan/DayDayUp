@@ -6,6 +6,7 @@ end
 # p permute(nums)
 
 
+# 这种事根据前面的数组来求新的数组
 def permutation(nums)
   dup_nums = nums.dup
   permutation = Hash.new { |hash, key| hash[key] = [] }
@@ -27,10 +28,12 @@ p permutation([1,2])
 p permutation([1,2,3])
 
 
+# 这种是根据当前数组前面组合位数
 def new_permutation(nums, count = nil)
   permutation = Hash.new { |hash, key| hash[key] = [] }
   permutation[1] = nums.map {|n| Array.new([n]) }
   return permutation[1] if count == 1
+
   (2..nums.size).to_a.each do |s|
     nums.each do |n|
       permutation[s-1].select{|p| !p.include?(n)}.map do |p|
@@ -39,6 +42,7 @@ def new_permutation(nums, count = nil)
     end
     break if s == count
   end
+  
   return permutation[count] if count
   permutation[nums.size]
 end
