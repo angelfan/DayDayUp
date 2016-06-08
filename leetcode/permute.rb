@@ -6,37 +6,43 @@ end
 # p permute(nums)
 
 
-def permutation(nums, flag = false)
+def permutation(nums)
   dup_nums = nums.dup
-  permutation = [Array.new([dup_nums.shift])]
-  dup_nums.each do |n|
-    permutation.dup.each do |v|
+  permutation = Hash.new { |hash, key| hash[key] = [] }
+  permutation[1] = [[dup_nums.shift]]
+
+  dup_nums.each_with_index do |n, i|
+    permutation_dup = permutation[i+1].dup
+    permutation_dup.each do |v|
       (v.size+1).times do |index|
-        permutation << v.dup.insert(index, n)
+        permutation[i+2] << v.dup.insert(index, n)
       end
     end
-  end
-  if flag
-    permutation.select!{|arr| arr.size == nums.size}
   end
   permutation
 end
 
 p permutation([1])
 p permutation([1,2])
-p permutation([1,2,3], true)
-# [1] = 1
-# [1, 2] = [1,2,] [2,1]
-# [1,2,3] = [1,2,3]
-#
-#
-# [1,2,3,4] 1, [2,3,4]    1234 2134 2314 2341
-#
-# 1
-#
-# 12 21
-#
-# 123 132 231 213 321 312
-#
-# 1234 1243 1324 1342 1432 1423 2134 2143 2314 2341 2413 2431
-# 3124 3142 3241 3214 3412 3421 4123 4132 4213 4231 4312 4321
+p permutation([1,2,3])
+
+
+def new_permutation(nums, count = nil)
+  permutation = Hash.new { |hash, key| hash[key] = [] }
+  permutation[1] = nums.map {|n| Array.new([n]) }
+  return permutation[1] if count == 1
+  (2..nums.size).to_a.each do |s|
+    nums.each do |n|
+      permutation[s-1].select{|p| !p.include?(n)}.map do |p|
+        permutation[s] << p.dup.push(n)
+      end
+    end
+    break if s == count
+  end
+  return permutation[count] if count
+  permutation[nums.size]
+end
+
+p new_permutation([1,2,3], 1)
+p new_permutation([1,2,3], 2)
+p new_permutation([1,2,3], 3)
