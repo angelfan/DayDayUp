@@ -35,7 +35,7 @@ class Array
     sort_arr
   end
 
-  def merge_sort!
+  def merge_sort
     return self if size <= 1
     left = self[0, size / 2]
     right = self[size / 2, size - size / 2]
