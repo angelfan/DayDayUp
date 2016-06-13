@@ -50,4 +50,45 @@ ft.insert(3,5,4)
 p ft.query(3,5)
 ```
 
+
+```ruby
+# 二维坐标
+class FenwickTree
+  attr_accessor :n, :trees
+
+  def initialize(n)
+    @n = n
+    @trees = Array.new(n + 1) { 0 }
+  end
+
+  def add(x, y, val)
+    while x <= n
+      y1 = y
+      while y1 <= n
+        trees[x][y1] += val
+        y1 += lowbit(y1)
+      end
+      x += lowbit(x)
+    end
+  end
+
+  def lowbit(x)
+    x & -x
+  end
+
+  def sum(x, y)
+    sum = 0
+    while x > 0
+      y1 = y
+      while y1 > 0
+        res += trees[x][y1]
+        y1 -= lowbit(y1)
+      end
+      x -= lowbit(x)
+    end
+    sum
+  end
+end
+```
+
 树状数组是一个可以很高效的进行区间统计的数据结构。在思想上类似于线段树，比线段树节省空间，编程复杂度比线段树低，但适用范围比线段树小。
