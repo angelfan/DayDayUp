@@ -29,3 +29,46 @@ def max(nums)
 end
 
 p max([1,3,7,9,5,6,8])
+
+def insert_envelope(envelope, result)
+  left, right = 0, result.size - 1
+  while left <= right
+    mid = (left + right) / 2
+    if result[mid] >= envelope
+      right = mid - 1
+    else
+      left = mid + 1
+    end
+  end
+
+  if left == result.size
+    result.push(target)
+  else
+    result[left] = target
+  end
+end
+
+def max_envelopes(envelopes)
+  result = []
+
+  # 宽度一样的 高度最大的放在前面
+  # 这样的好处是， 相同高度的信封被重复统计
+  # example [[2,3], [5,8], [5,4], [6,5]]
+  # 高度较小的4 可以把8替换
+  # 这样只要下一次出现比4大的就说明宽度变大了, 以便获得更好的潜力
+  s_envelopes = envelopes.sort do |x, y|
+    if x[0] != y[0]
+      x[0] <=> y[0]
+    else
+      y[1] <=> x[1]
+    end
+  end
+
+  s_envelopes.each do |envelope|
+    insert(envelope[1], result)
+  end
+
+  result.size
+end
+
+p max_envelopes([[2,3], [5,8], [5,4], [6,5]])
