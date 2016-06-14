@@ -60,6 +60,7 @@ class LRUCache
     head.next = node
   end
 
+  # 双向链表配合hash比较容易控制缓存大小并且容易取得最不常用的节点
   class Node
     attr_accessor :prev, :next, :value
     attr_reader   :key
