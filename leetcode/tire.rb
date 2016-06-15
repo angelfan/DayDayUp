@@ -72,6 +72,36 @@ class Trie
     node if node.word == word
   end
 
+  def search_like(word)
+    dfs_search(root, word, 0)
+  end
+
+  def dfs_search(node, word, start)
+    return true if node.exist? && start == word.size
+    return false if start >= word.size
+
+    char = word[start]
+
+    if char == '.'
+      result = false
+      node.children.values.each do |child|
+        if dfs_search(child, word, start + 1)
+          result = true
+          break
+        end
+      end
+      return true if result
+    else
+      if node.child?(char)
+        return dfs_search(node.child(char), word, start + 1)
+      else
+        return false
+      end
+    end
+
+    false
+  end
+
   def exist?(word)
     node = root
     word.each_char do |char|
@@ -112,3 +142,4 @@ end
 
 p trie.freq_max
 p trie.freq('ruby')
+p trie.search_like('.p.r..us.y')
