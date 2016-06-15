@@ -1,22 +1,29 @@
 class TrieNode
-  attr_accessor :children, :freq, :word, :char
+  attr_accessor :children, :freq, :word, :char, :exist
 
   def initialize(char = '', word = '')
+    # TODO: 散列换成堆
     @children = {}
     @freq = 0
     @char = char
     @word = word
+    @exist = false
   end
 
   def add_child(char)
     node = self.class.new(char)
     children[char.to_sym] = node
-    node.touch
     node
   end
 
-  def touch
+  def add_word(word)
+    self.word = word
     self.freq += 1
+    self.exist = true
+  end
+
+  def exist?
+    exist
   end
 
   def child(char)
@@ -38,14 +45,22 @@ class Trie
   def insert(word)
     node = root
     word.each_char do |char|
-      if node.child?(char)
-        node = node.child(char)
-        node.touch
-      else
-        node = node.add_child(char)
-      end
+      node = node.child?(char) ? node.child(char) : node.add_child(char)
     end
-    node.word = word
+    node.add_word(word)
+  end
+
+  def freq_max(count = 10)
+    pre_order.sort { |x, y| y[1] <=> x[1] }[0..count - 1]
+  end
+
+  def pre_order(node = root)
+    result = []
+    result.push([node.word, node.freq]) if node.exist?
+    node.children.values.each do |child|
+      result.concat(pre_order(child))
+    end
+    result
   end
 
   def search(word)
@@ -54,10 +69,19 @@ class Trie
       break unless node.child?(char)
       node = node.child(char)
     end
+    node if node.word == word
+  end
+
+  def exist?(word)
+    node = root
+    word.each_char do |char|
+      break unless node.child?(char)
+      node = node.child(char)
+    end
     (node.word == word) ? true : false
   end
 
-  def starts_with(prefix)
+  def starts_with?(prefix)
     node = root
     prefix.each_char do |char|
       return false unless node.child?(char)
@@ -66,9 +90,9 @@ class Trie
     true
   end
 
-  def starts_with_freq(prefix)
+  def freq(word)
     node = root
-    prefix.each_char do |char|
+    word.each_char do |char|
       if node.child?(char)
         node = node.child(char)
       else
@@ -80,13 +104,11 @@ class Trie
 end
 
 trie = Trie.new
-trie.insert('ruby')
-trie.insert('rule')
-trie.insert('java')
-trie.insert('python')
 
-p trie.search('ruby')
-p trie.search('ru')
-p trie.starts_with('jav')
-p trie.starts_with('j2')
-p trie.starts_with_freq('ru')
+words = File.read(__dir__ + '/words.txt').strip.split
+words.each do |word|
+  trie.insert(word)
+end
+
+p trie.freq_max
+p trie.freq('ruby')
