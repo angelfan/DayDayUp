@@ -2,6 +2,7 @@ class MinStack
   attr_accessor :stack, :min_stack
 
   def initialize
+    # @stack = [[value, min]]
     @stack = []
     @min_stack = []
   end
