@@ -8,7 +8,7 @@ class MinStack
 
   def push(x)
     stack.push(x)
-    min_stack.push(x) if min_stack.empty? || min_stack[-1] > x
+    min_stack.push(x) if min_stack.empty? || min_stack[-1] >= x
   end
 
   def pop
