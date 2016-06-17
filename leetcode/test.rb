@@ -101,6 +101,35 @@ def new_combination(arr)
   combination
 end
 
+def subsets_with_dup(nums)
+  subsets = []
+  last_added = [[],[]]
+  nums.sort!.each_with_index do |n, i|
+    last_added.shift
+    temp_added = []
+
+    if n == nums[i-1] && i != 0
+      last_added[0].dup.each do |v|
+        temp_added << v.dup.push(n)
+        subsets << v.dup.push(n)
+      end
+      last_added << temp_added
+    else
+
+      subsets.dup.each do |v|
+        temp_added << v.dup.push(n)
+        subsets << v.dup.push(n)
+      end
+
+      temp_added << Array.new([n])
+      subsets << Array.new([n])
+      last_added << temp_added
+      # p last_added
+    end
+  end
+  subsets
+end
+
 p new_combination([1,2,3])
 
 
