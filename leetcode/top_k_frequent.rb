@@ -50,3 +50,9 @@ def insert(n, temp)
     temp.insert(left, n)
   end
 end
+
+def top_k_frequent_less(nums, k)
+  m = Hash.new { |hash, key| hash[key] = 0 }
+  nums.each { |n| m[n] -= 1 }
+  m.sort_by(&:last).take(k).map(&:first)
+end
