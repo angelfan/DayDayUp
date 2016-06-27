@@ -123,6 +123,7 @@ Order.where(id: 2).update_all(ship_code: 123456123)
 ```
 
 ## 可重复读隔离级别
+# gem 'transaction_isolation'
 ```ruby
 ActiveRecord::Base.isolation_level(:repeatable_read) do
    Order.transaction do
