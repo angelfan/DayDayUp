@@ -221,6 +221,21 @@ PostgreSQL会提示: ERROR: could not serialize access due to concurrent update
 由于使用的是MVCC机制的乐观锁,内部有版本号(这个字段名字叫xmin)来控制并发,所以不会对数据集上锁,对性能的影响是很小的。但如果并发事务冲突的几率比较大,那么事务回滚的开销就比较大了
 
 备注： 测试postgre在隔离级别为读已提交的情况下 也不会发生第二类丢失更新
+测试demo
+```ruby
+# 事务1
+Order.transaction do
+  order = Order.find(2)
+  sleep 2
+  order.update(approved: false)
+end
+
+# 事务2
+Order.transaction do
+  order = Order.find(2)
+  order.update(approved: true)
+end
+```
 
 ## Other
 
