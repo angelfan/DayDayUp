@@ -1,0 +1,14 @@
+package foo;
+message User {
+  optional string email = 1;
+  optional string name = 2;
+}
+message UserRequest {
+  optional string email = 1;
+}
+message UserList {
+  repeated User users = 1;
+}
+service UserService {
+  rpc Find (UserRequest) returns (UserList);
+}
