@@ -81,7 +81,7 @@ conn.close
 ```
 
 ### 资源
-[Rails 中用 RabbitMQ 做消息队列 [译]](https://ruby-china.org/topics/22332)
-[RabbitMQ消息队列](http://blog.csdn.net/anzhsoft/article/details/19563091)
-[Tutorials](https://www.rabbitmq.com/getstarted.html)
-[Tutorials翻译](http://liuvblog.com/tags/#RabbitMQ)
++ [Rails 中用 RabbitMQ 做消息队列 [译]](https://ruby-china.org/topics/22332)
++ [RabbitMQ消息队列](http://blog.csdn.net/anzhsoft/article/details/19563091)
++ [Tutorials](https://www.rabbitmq.com/getstarted.html)
++ [Tutorials翻译](http://liuvblog.com/tags/#RabbitMQ)
