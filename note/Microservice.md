@@ -11,6 +11,7 @@
 
 
 ## resource
+[Microservice 微服务的理论模型和现实路径](http://www.cnblogs.com/mindwind/p/5422053.html)
 [微服务（Microservice）那点事](http://www.importnew.com/17588.html)
 [微服务概念解析](http://dockone.io/article/1006)
 [重构到微服务：执行整体迁移时的考虑事项](http://www.ibm.com/developerworks/cn/cloud/library/cl-refactor-microservices-bluemix-trs-1/index.html)
