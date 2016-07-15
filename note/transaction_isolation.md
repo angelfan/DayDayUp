@@ -243,3 +243,74 @@ end
 这不是一种通用的解决方案,只能根据业务逻辑来选择特定的检测条件,并不能防止这些检测条件之外的可能存在的更新丢失问题。
 而且有些情况下可能很难选择合适的更新检测条件,比如一个银行账户,关键的字段有账户号和余额,很难通过WHERE条件来检测当前事务执行期间是否有其他并发事务已经修改了余额并做了提交。
 所以这种方法只在特定的逻辑环境下有一定的用途。
+
+
+## tip
+```ruby
+
+unless rerord.approved?
+    # balabala # 多个thread可能同时到达这里
+    rerord.update(approved: true)
+end # 并发下会导致一些问题
+
+# better
+# combine query
+update_count = Rerord.where(id: id, approved: false).update_all(approved: true)
+# 根据上面的理论 并发下 不会导致某个record会被重复更新
+if update_count == 1
+    # balabala
+end
+
+# Optimistic locking
+
+# Pessimistic locking
+```
+
+
+## Optimistic locking
+有的时候可能是指希望某些逻辑使用乐观锁
+```ruby
+# Optimistic locking
+module OptimisticallyLockable
+  extend ActiveSupport::Concern
+  included do
+    self.lock_optimistically = false
+  end
+
+  module ClassMethods
+    def with_optimistic_locking
+      self.lock_optimistically = true
+
+      begin
+        yield
+      ensure
+        self.lock_optimistically = false
+      end
+    end
+  end
+end
+```
+redis-objects会重写active_record中的lock
+不想打patch可以这样
+
+# Pessimistic locking
+```ruby
+module RedisCacheable
+  extend ActiveSupport::Concern
+
+  included do
+    class << self
+      alias_method(:temp_lock_method, :lock)
+    end
+
+    include Redis::Objects
+
+    class << self
+      alias_method(:redis_lock, :lock)
+      alias_method(:lock, :temp_lock_method)
+      remove_method(:temp_lock_method)
+    end
+  end
+end
+```
+
