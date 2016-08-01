@@ -22,9 +22,7 @@ class FormModel
     if valid?
       ActiveRecord::Base.transaction do
         model.save
-        forms.each do |form|
-          form.save
-        end
+        forms.each(&:save)
       end
     else
       false
@@ -54,7 +52,7 @@ class FormModel
   end
 
   def to_partial_path
-    ""
+    ''
   end
 
   def to_model
@@ -70,7 +68,7 @@ class FormModel
     end
 
     def association(name, &block)
-      forms << {assoc_name: name, proc: block}
+      forms << { assoc_name: name, proc: block }
       attr_reader name
     end
 
@@ -91,11 +89,11 @@ class FormModel
   end
 
   def params_for_main_model(params)
-    params.reject { |key, value| value.is_a?(Hash) }
+    params.reject { |_key, value| value.is_a?(Hash) }
   end
 
   def params_for_nested_models(params)
-    params.select { |key, value| value.is_a?(Hash) }
+    params.select { |_key, value| value.is_a?(Hash) }
   end
 
   def assign_to(association)
