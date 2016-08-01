@@ -1,0 +1,4 @@
+id,name,country,price
+1, mug, USA, 100
+2, flower, Brazil, 200
+3, white mug, UK, 300
