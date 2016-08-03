@@ -4,6 +4,17 @@ class FilesChecker
   def update?
     FilesUpdateChecker.new(files, {}, {last_update_at: last_update_at}).updated?
   end
+
+  def update2?
+    last_update_at < max_mtime
+  end
+
+  private
+
+  def max_mtime
+    time_now = Time.now
+    files.map {|path| File.mtime(path)}.reject {|mtime| time_now < mtime}.max
+  end
 end
 
 # 目的是希望可以给予ActiveSupport::FileUpdateChecker
@@ -30,3 +41,5 @@ class FilesUpdateChecker < ActiveSupport::FileUpdateChecker
     @last_update_at = last_update_at
   end
 end
+
+
