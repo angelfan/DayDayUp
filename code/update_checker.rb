@@ -1,4 +1,4 @@
-class FilesChecker
+class FilesChecker < ActiveRecord::Base
   attr_accessor :files, :last_watched, :last_update_at
 
   def update?
