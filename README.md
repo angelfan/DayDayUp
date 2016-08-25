@@ -110,3 +110,4 @@
 + [OAuth 2.0 Tutorial: Grape API 整合 Doorkeeper](https://blog.yorkxin.org/posts/2013/10/10/oauth2-tutorial-grape-api-doorkeeper/)
 + [使用 Action Mailer ](http://blog.csdn.net/restkuan/article/details/44874169)
 + [Refactoring Ruby with Monads](http://codon.com/refactoring-ruby-with-monads)
++ [图片http://placehold.it/wxh](http://placehold.it/200x200)
