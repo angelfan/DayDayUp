@@ -149,11 +149,15 @@ end
 
 基本流程就是
 
-1.request进来后 `RouteSet` 把请求交给`Journey::Router`去处理
-2.`Journey::Router`拿到request去找 `Route`
-3.然后执行Route#pp#serve,
-4.Dispatcher(Route#app)取得request#controller_class然后调用Controller.dispatch
-5.ActionController::Metal里面有个类方法 `self.dispatch(name, req, res)`他会负责将请求分发到指定的`Action`
+1. request进来后 `RouteSet` 把请求交给`Journey::Router`去处理
+
+2. `Journey::Router`拿到request去找 `Route`
+
+3. 然后执行Route#pp#serve,
+
+4. Dispatcher(Route#app)取得request#controller_class然后调用Controller.dispatch
+
+5. ActionController::Metal里面有个类方法 `self.dispatch(name, req, res)`他会负责将请求分发到指定的`Action`
 
 ps: Route#app在rails5中有三种类型 `StaticDispatcher`, `Constraints`, `Dispatcher`
 ````ruby
