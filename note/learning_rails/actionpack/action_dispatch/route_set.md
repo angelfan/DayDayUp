@@ -34,10 +34,15 @@ run Routes
 
 ### 猜想
 为什么可以这样, 根据Rack App的实现, 猜想可能是这样
+
 `ActionDispatch::Routing::RouteSet` 里面应该会有个 `#call`, 然后根据当前的请求(env)分发到指定的Controller
+
 env中会有我们想要的资料， 比如请求方法， 请求路径， 请求参数等等
+
 请求方法+请求路径可以帮助我们找到对应的路由, 然后就可以根据定义的路由找到Controller#Action
+
 然后按照Rack App 返回 status, head, body
+
 咱们自己按照这种思路写一个试试看
 ```ruby
 class Router
@@ -98,6 +103,7 @@ end
 ```
 
 的确有这么个东西， 它处理了一下env然后甩手就交给了 `@router.serve(req)`
+
 找一下@router是什么东西
 ```ruby
 # action_dispatch/routing/route_set.rb:324
@@ -142,11 +148,12 @@ end
 ```
 
 基本流程就是
-1. request进来后 `RouteSet` 把请求交给`Journey::Router`去处理
-2. `Journey::Router`拿到request去找 `Route`
-3. 然后执行Route#pp#serve,
-4. Dispatcher(Route#app)取得request#controller_class然后调用Controller.dispatch
-5. ActionController::Metal里面有个类方法 `self.dispatch(name, req, res)`他会负责将请求分发到指定的`Action`
+
+1.request进来后 `RouteSet` 把请求交给`Journey::Router`去处理
+2.`Journey::Router`拿到request去找 `Route`
+3.然后执行Route#pp#serve,
+4.Dispatcher(Route#app)取得request#controller_class然后调用Controller.dispatch
+5.ActionController::Metal里面有个类方法 `self.dispatch(name, req, res)`他会负责将请求分发到指定的`Action`
 
 ps: Route#app在rails5中有三种类型 `StaticDispatcher`, `Constraints`, `Dispatcher`
 ````ruby
@@ -211,10 +218,15 @@ def ast
 end
 ```
 terminal的意思是一个路由的端点(不知道怎么翻译)
-比如 '/articles' 它有两个端点
-一个是articles 另一个是format
-因为我们的req#path_info可能是'/articles' 也可能是 '/articles.xxx'
-simulate.simulate('/articles/100/edit')实际上是逐个去匹配, '/', 'articles', '/', '100', '/', 'edit'
+
+比如 '/articles' 它有两个端点, 一个是articles 另一个是format
+
+因为我们的req#path_info可能是'/articles' 也可能是 '/articles.xxx',
+
+simulate.simulate('/articles/100/edit')实际上是逐个去匹配,
+
+'/', 'articles', '/', '100', '/', 'edit'
+
 大概可能像是这样
 ```ruby
 tring_states = {
@@ -242,6 +254,7 @@ regexp_states = {
 ```
 
 为了更好的帮助我自己理解`TransitionTable` 整理了一段代码
+
 [TransitionTable](https://github.com/angelfan/DayDayUp/blob/master/note/trace_rails/actionpack/action_dispatch/router_set/transition_table.rb)
 
 上面那个动作之所以会被触发是因为在`Journey::Router#find_routes`过程中(请求进来了需要找到指定的路由以便按照上面所说的方式去分发请求)
@@ -266,5 +279,9 @@ end
 ```
 
 所以 实际上寻找路由 是通过req#path_info去`TransitionTable`中去找
+
 思路理得差不多, 然后参照一下rails中处理参数的方式 稍微完善一下之前的demo得到如下
+
 [进阶版demo](https://github.com/angelfan/DayDayUp/blob/master/note/trace_rails/actionpack/action_dispatch/router_set/config.ru)
+
+先这样吧~~~
