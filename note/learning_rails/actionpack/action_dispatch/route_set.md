@@ -175,7 +175,7 @@ def app(blocks)
   end
 end
 ````
-整理一下思路, 谢了如下迷你版demo
+整理一下思路, 写了如下迷你版demo
 
 [迷你版demo](https://github.com/angelfan/DayDayUp/blob/master/note/learning_rails/actionpack/action_dispatch/router/config.ru)
 
@@ -261,7 +261,7 @@ regexp_states = {
 
 为了更好的帮助我自己理解`TransitionTable` 整理了一段代码
 
-[TransitionTable](https://github.com/angelfan/DayDayUp/blob/master/note/trace_rails/actionpack/action_dispatch/router_set/transition_table.rb)
+[TransitionTable](https://github.com/angelfan/DayDayUp/blob/master/note/learning_rails/actionpack/action_dispatch/router_set/transition_table.rb)
 
 上面那个动作之所以会被触发是因为在`Journey::Router#find_routes`过程中(请求进来了需要找到指定的路由以便按照上面所说的方式去分发请求)
 会call`Journey::Route#ast`
@@ -288,6 +288,6 @@ end
 
 思路理得差不多, 然后参照一下rails中处理参数的方式 稍微完善一下之前的demo得到如下
 
-[进阶版demo](https://github.com/angelfan/DayDayUp/blob/master/note/trace_rails/actionpack/action_dispatch/router_set/config.ru)
+[进阶版demo](https://github.com/angelfan/DayDayUp/blob/master/note/learning_rails/actionpack/action_dispatch/router_set/config.ru)
 
 先这样吧~~~
