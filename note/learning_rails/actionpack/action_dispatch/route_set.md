@@ -286,6 +286,14 @@ end
 
 所以 实际上寻找路由 是通过req#path_info去`TransitionTable`中去找
 
+关于参数的问题 实际上就是
+将'hello/:xx' 的路由生成一个 /\A\/hello\/([^\/.?]+)(?:\.([^\/.?]+))?\Z/ 正则
+```ruby
+reg = /\A\/hello\/([^\/.?]+)(?:\.([^\/.?]+))?\Z/
+path_info = '/hello/name.js'
+reg.match(path_info) # #<MatchData "/hello/name.js" 1:"name" 2:"js">
+```
+
 思路理得差不多, 然后参照一下rails中处理参数的方式 稍微完善一下之前的demo得到如下
 
 [进阶版demo](https://github.com/angelfan/DayDayUp/blob/master/note/learning_rails/actionpack/action_dispatch/router_set/config.ru)
