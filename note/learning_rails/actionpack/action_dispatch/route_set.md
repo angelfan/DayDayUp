@@ -175,7 +175,9 @@ def app(blocks)
   end
 end
 ````
+整理一下思路, 谢了如下迷你版demo
 
+[迷你版demo](https://github.com/angelfan/DayDayUp/blob/master/note/learning_rails/actionpack/action_dispatch/router/config.ru)
 
 ## 另外两个感兴趣的问题
 1. `Journey::Router` 是如何根据request找到对应的`Route`的
