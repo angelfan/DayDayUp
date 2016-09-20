@@ -9,6 +9,7 @@ class ForbidBrowser
     @app = app
     @config = Config.new
     yield(@config)
+    # @config.instance_exec(&block)
   end
 
   def call(env)
