@@ -385,14 +385,14 @@ end
 两个问题解完
 
 ## 小结
-rails中的v(view)和c(controller)是靠着AbstractController::Rendering#render来承上(c)启下(v)
+rails中的v(view)和c(controller)是靠着AbstractController::Rendering#render来承上(c)启下(v),
 通过#render_to_body作为接口来获取view的结果作为response_body返回给客户端
 
-在我们的view中会使用一些helper, 比如我们自己定义的helper method以及通过路由生成的url helper
+在我们的view中会使用一些helper, 比如我们自己定义的helper method以及通过路由生成的url helper,
 所以在ActionView::Rendering会以Class.new(ActionView::Base)的方式来加载这个helper method
 
-三个比较重要的东西view_context lookup_context view_renderer
-xxx_context其实什么事情都不会干, 只是有一堆关于上下文环境相关的东西 就好比军师
+三个比较重要的东西view_context lookup_context view_renderer,
+xxx_context其实什么事情都不会干, 只是有一堆关于上下文环境相关的东西 就好比军师,
 view_renderer 就好比士兵吧, 军师把相关信息告诉士兵, 然后士兵执行(渲染出view)
 
 view其实是先被compile成一堆字符串(OutputBuffer相关), 然后通过module_eval转换成成相应的方法
