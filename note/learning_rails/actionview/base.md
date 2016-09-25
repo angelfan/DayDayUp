@@ -1,5 +1,6 @@
 # 尝试理解ActionController::Base#render
 我是带着以下两个问题去翻ActionView相关的源码的, 标题是后来取的
+
 1. 是通过什么手段将controller的实例变量复制到view中的
 2. 这些实例变量是怎么被使用的, 是怎将erb(也可能是slim haml等)转化成标准的html的
 
@@ -318,10 +319,15 @@ end
 ```
 
 `code = @handler.call(self)`
+
 @handler => ActionView::Template::Handlers::ERB
+
 self => ActionView::Template
+
 它会输出一串字符串
+
 就像 `ActionView::Template::Handlers::Erubis.new("<h1><%= @abc %></h1>").src` 会输出
+
 `"@output_buffer = output_buffer || ActionView::OutputBuffer.new;@output_buffer.safe_append='<h1>'.freeze;@output_buffer.append=( @abc );@output_buffer.safe_append='</h1>'.freeze;@output_buffer.to_s"`
 
 这样相当于
@@ -335,8 +341,10 @@ def method_name(local_assigns, output_buffer) # method_name每次都不一样, �
   ...
 end
 ```
+
 这个方法通过 `mod.module_eval(source, identifier, 0)` 作用到ActionView::Base上了
 所以可以抓到`@abc`这个实例变量
+
 至此完成erb到html的转换
 
 两个问题解完
