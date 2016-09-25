@@ -44,21 +44,44 @@ module AbstractController
 end
 ```
 
-一看就知道render_to_body是关键点(response_boy内容全靠它)
-ActionController::Base中引用了太多的模块很多方法被多个模块不断的重写, 不同模块的重写附加的职能是不同的
-为了知道一个方法被那些模块重写 把下面这段代码复制粘贴到`rails c`下就能用
-
+一看就知道render_to_body是关键点 
+因为response_boy内容全靠它
 ```ruby
-class Module
-  def ancestors_that_implement_instance_method(instance_method)
-    ancestors.find_all do |ancestor|
-      (ancestor.instance_methods(false) + ancestor.private_instance_methods(false)).include?(instance_method)
-    end
+# config.ru
+require 'action_dispatch'
+require 'action_controller'
+
+routes = ActionDispatch::Routing::RouteSet.new
+routes.draw do
+  get '/' => 'test#index'
+end
+
+class TestController < ActionController::Metal
+  # Rendering在ActionController::Base中才被include
+  # 这里用的是Metal  
+  include AbstractController::Rendering
+
+  def index
+    @var = 'you had got the instance variable'
+    render 'index'
+    # 这个'index'在我们这里其实是无意义的, 其实可以render任何东西
+    # 比如 render 'xxx', 因为我们的render_to_body没有使用这些参数
+  end
+
+  def render_to_body(*_args)
+    template = ERB.new File.read("#{params[:action]}.html.erb")
+    template.result(binding)
   end
 end
+
+run routes
+
+# index.html.erb
+Message: <%= @var %>
 ```
 
-`#_normalize_render`
+
+在看`#render_to_body`之前我先看了一下`#_normalize_render`
 ```ruby
 # actionpack/lib/abstract_controller/rendering.rb 
 # AbstractController::Rendering
@@ -76,6 +99,16 @@ def _normalize_render(*args, &block)
 
   _normalize_options(options)
   options
+end
+
+# ActionController::Base中引用了太多的模块很多方法被多个模块不断的重写, 不同模块的重写附加的职能是不同的
+# 为了知道一个方法被那些模块重写 把下面这段代码复制粘贴到`rails c`下就能用
+class Module
+  def ancestors_that_implement_instance_method(instance_method)
+    ancestors.find_all do |ancestor|
+      (ancestor.instance_methods(false) + ancestor.private_instance_methods(false)).include?(instance_method)
+    end
+  end
 end
 
 # 贴一下这两个方法被那些模块重写过
@@ -120,7 +153,7 @@ module ActionView
 end
 ```
 
-主要看_render_template
+主要看`#_render_template`
 ```ruby
 # 到这里我的第一个问题的答案就水落石出了(是通过什么手段将controller的实例变量复制到view中的)
 def _render_template(options) #:nodoc:
