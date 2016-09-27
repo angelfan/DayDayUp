@@ -17,7 +17,7 @@ class Order
 
   def initialize(coupon, items)
     @coupon = coupon
-    @items = items.map{|name, quantity, price| OrderItem.new(name, quantity, price)}
+    @items = items.map { |name, quantity, price| OrderItem.new(name, quantity, price) }
   end
 
   def to_serial_units
@@ -36,4 +36,3 @@ class OrderItem
     @price = price
   end
 end
-

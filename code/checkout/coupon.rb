@@ -33,13 +33,13 @@ module HasDiscountFormula
     # 返回优惠的金额
     def diff(target_price)
       case type
-        when 'pay'
-          ans = target_price - price
-          [ans, 0].max
-        when 'fixed'
-          [price, target_price].min
-        when 'percentage'
-          target_price * percentage
+      when 'pay'
+        ans = target_price - price
+        [ans, 0].max
+      when 'fixed'
+        [price, target_price].min
+      when 'percentage'
+        target_price * percentage
       end
     end
   end
@@ -55,14 +55,14 @@ class Coupon
     @discount_type = options.fetch(:discount_type)
     @percentage = options.fetch(:percentage, nil)
     @price = options.fetch(:price, nil)
-    @rules = options.fetch(:rules).map{ |condition, quantity| Rule.new(condition, quantity) }
+    @rules = options.fetch(:rules).map { |condition, quantity| Rule.new(condition, quantity) }
   end
 
   def discount_parameters
     {
-        discount_type: discount_type,
-        percentage: percentage,
-        price: price
+      discount_type: discount_type,
+      percentage: percentage,
+      price: price
     }
   end
 end
@@ -98,7 +98,6 @@ class Rule
       C.new(quantity)
     end
   end
-
 
   module RuleStrategy
     attr_reader :quantity

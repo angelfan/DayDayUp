@@ -25,12 +25,11 @@ class OrderBuilder
   end
 end
 
-
 # 固定金额结账
 coupon_options = {
-    discount_type: 'pay',
-    price: 50,
-    rules: [['A', 4], ['B', 4]]
+  discount_type: 'pay',
+  price: 50,
+  rules: [['A', 4], ['B', 4]]
 }
 coupon = Coupon.new(coupon_options)
 items_option = [['A', 5, 20], ['B', 11, 30]]
@@ -40,25 +39,24 @@ p order.discount
 
 # 折扣固定金额
 coupon_options = {
-    discount_type: 'fixed',
-    price: 50,
-    rules: [['A', 4], ['B', 4]]
+  discount_type: 'fixed',
+  price: 50,
+  rules: [['A', 4], ['B', 4]]
 }
 coupon = Coupon.new(coupon_options)
-items_option = [['A', 5, 20], ['B', 11, 30],  ['C', 11, 30]]
+items_option = [['A', 5, 20], ['B', 11, 30], ['C', 11, 30]]
 order = OrderBuilder.new(coupon, items_option).order
 p order.price
 p order.discount
 
 # 百分比折扣
 coupon_options = {
-    discount_type: 'percentage',
-    percentage: 0.5,
-    rules: [['A', 4], ['B', 4]]
+  discount_type: 'percentage',
+  percentage: 0.5,
+  rules: [['A', 4], ['B', 4]]
 }
 coupon = Coupon.new(coupon_options)
 items_option = [['A', 5, 20], ['B', 11, 30]]
 order = OrderBuilder.new(coupon, items_option).order
 p order.price
 p order.discount
-
