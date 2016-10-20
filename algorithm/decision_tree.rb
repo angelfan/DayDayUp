@@ -44,33 +44,7 @@ class DecisionNode
       results[r]+=1
     end
   end
-
-  def giniimpurity(rows)
-    total= rows.size
-    counts = uniquecounts(rows)
-    imp = 0
-    for k1 in counts:
-      p1=counts[k1]/total
-      for k2 in counts
-        if k1==k2
-          p2=counts[k2]/total
-          imp+=p1*p2
-    imp
-  end
 end
 
 # p DecisionNode.new.divideset(MY_DATA, 2, 'yes')
 p DecisionNode.new.uniquecounts(MY_DATA)
-
-
-# def giniimpurity(rows):
-#     total=len(rows)
-# counts=uniquecounts(rows)
-# imp=0
-# for k1 in counts:
-#   p1=float(counts[k1])/total
-#   for k2 in counts:
-#     if k1==k2: continue
-#     p2=float(counts[k2])/total
-#     imp+=p1*p2
-#     return imp
