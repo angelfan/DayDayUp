@@ -82,7 +82,7 @@ module Callbacks
         set_callbacks name, CallbackChain.new(name)
 
         module_eval <<-RUBY, __FILE__, __LINE__ + 1
-            def _run_#{name}_callba`cks(&block)
+            def _run_#{name}_callbacks(&block)
               __run_callbacks__(_#{name}_callbacks, &block)
             end
         RUBY
