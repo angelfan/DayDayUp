@@ -5,3 +5,4 @@ railsdemo/ignore
 text2.rb
 note/ignore
 .DS_Store
+note/learning_rails/activesupport/callbacks_learning.md
