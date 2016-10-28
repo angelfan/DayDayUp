@@ -6,3 +6,8 @@ text2.rb
 note/ignore
 .DS_Store
 note/learning_rails/activesupport/callbacks_learning.md
+test/webp/*.jpg
+test/webp/*.png
+note/learning_rails/actionpack/all.md
+
+
