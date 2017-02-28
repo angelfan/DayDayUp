@@ -1,6 +1,6 @@
 require 'mini_magick'
-canvas = MiniMagick::Image.open('tst.jpg')
-
+canvas = MiniMagick::Image.open('ad.jpg')
+# canvas.resize_to_fill(10, 10)
 def process_crop_print_image(canvas)
 
   mask = MiniMagick::Image.open('Mugwort.png')
@@ -35,6 +35,8 @@ ensure
   tempfile.close
   tempfile.unlink
 end
+
+# process_crop_print_image(canvas)
 #
 # canvas = process_crop_print_image(canvas)
 #

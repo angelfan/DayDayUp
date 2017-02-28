@@ -48,6 +48,7 @@ class Trie
       node = node.child?(char) ? node.child(char) : node.add_child(char)
     end
     node.add_word(word)
+    node = nil
   end
 
   def freq_max(count = 10)

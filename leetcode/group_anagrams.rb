@@ -13,8 +13,8 @@
 # @param {String[]} strs
 # @return {String[][]}
 def group_anagrams(strs)
-  strs.inject(Hash.new([])) do |h, s|
-    h[s.chars.sort.join] += [s]
-    h
-  end.map{|k, v| v.sort}
+  strs.each_with_object(Hash.new([])) do |str, h|
+    h[str.chars.sort.join] += [str]
+  end
 end
+p group_anagrams ["eat", "tea", "tan", "ate", "nat", "bat"]
