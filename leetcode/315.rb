@@ -13,6 +13,8 @@ end
 
 
 class BinarySearchTree
+  attr_reader :root
+
   def initialize
     @root = nil
   end
@@ -25,7 +27,6 @@ class BinarySearchTree
 
     node, order = @root, 0
     while true
-      # p [node, value]
       if node.value > value
         node.lcount += 1
         if node.left
@@ -34,9 +35,7 @@ class BinarySearchTree
           node.left = BinarySearchTreeNode.new(value)
           return order
         end
-      end
-
-      if node.value < value
+      elsif node.value < value
         order += node.lcount + node.count
         if node.right
           node = node.right; next
@@ -44,11 +43,10 @@ class BinarySearchTree
           node.right = BinarySearchTreeNode.new(value)
           return order
         end
+      else
+        node.count += 1
+        return order + node.lcount
       end
-
-
-      node.count += 1
-      return order + node.lcount
     end
   end
 end
@@ -62,10 +60,16 @@ def count_smaller(nums)
   nums.reverse.map do |n|
     tree.insert(n)
   end.reverse
+
   # nums.reverse.map {|n| tree.insert(n) }.reverse
 end
+# tree = count_smaller([5,4,1,2])
+# p tree.root
+# p tree.root.left
+# p tree.root.right.right
 
-p count_smaller([5,5,3,2,1,6])
+p count_smaller([5,4,1,2])
+
 
 def merge(nums, from, to, pos, answer)
   if from >= to
